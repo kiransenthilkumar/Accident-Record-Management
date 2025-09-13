@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Accident History</h2>
+
+  <!-- Search Form -->
+  <form method="POST" action="{{ url_for('history') }}" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="aadhar" class="form-control" placeholder="Enter Aadhar" value="{{ aadhar or '' }}" required>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+
+  {% if records is not none %}
+    {% if records %}
+      <h5>Results for Aadhar: {{ citizen.aadhar }} ({{ citizen.firstname }} {{ citizen.lastname }})</h5>
+      <table class="table table-bordered table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Case</th>
+            <th>Person</th>
+            <th>Vehicle</th>
+            <th>Description</th>
+            <th>Photo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for acc, case in records %}
+          <tr>
+            <td>{{ acc.datee.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ case.casename }}</td>
+            <td>{{ acc.personname }}</td>
+            <td>{{ acc.vehicleno }}</td>
+            <td>{{ acc.description }}</td>
+            <td>
+              {% if acc.photo %}
+                <img src="{{ url_for('static', filename='uploads/' ~ acc.photo) }}" alt="Photo" width="80">
+              {% else %}
+                No photo
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="alert alert-warning">No accident records found for this Aadhar.</div>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

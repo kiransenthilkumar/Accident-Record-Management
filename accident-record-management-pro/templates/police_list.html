@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5>Police List</h5>
+    <table class="table table-sm" id="policeTable">
+      <thead><tr><th>ID</th><th>Name</th><th>Dept</th><th>Profession</th><th>Username</th></tr></thead>
+      <tbody>
+        {% for p in all_police %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.firstname }} {{ p.lastname }}</td>
+          <td>{{ p.department or '-' }}</td>
+          <td>{{ p.profession or '-' }}</td>
+          <td>{{ p.username }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>$(document).ready(()=>$('#policeTable').DataTable());</script>
+{% endblock %}
