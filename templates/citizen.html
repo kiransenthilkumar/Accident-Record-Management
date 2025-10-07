@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Manage Citizens</h2>
+
+  <!-- Add Citizen Form -->
+  <form method="POST" action="{{ url_for('add_citizen') }}" class="card card-body mb-4 shadow-sm">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input name="firstname" class="form-control" placeholder="First Name" required>
+      </div>
+      <div class="col-md-3">
+        <input name="lastname" class="form-control" placeholder="Last Name" required>
+      </div>
+      <div class="col-md-2">
+        <input name="mobile" class="form-control" placeholder="Mobile" required>
+      </div>
+      <div class="col-md-2">
+        <input name="aadhar" class="form-control" placeholder="Aadhar" required>
+      </div>
+      <div class="col-md-2">
+        <input name="address" class="form-control" placeholder="Address">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Add Citizen</button>
+  </form>
+
+  <!-- Citizen Table -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table id="citizenTable" class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Aadhar</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in citizens %}
+          <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.firstname }} {{ c.lastname }}</td>
+            <td>{{ c.mobile }}</td>
+            <td>{{ c.aadhar }}</td>
+            <td>{{ c.address }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- DataTables -->
+<script>
+$(document).ready(function() {
+  $('#citizenTable').DataTable();
+});
+</script>
+{% endblock %}

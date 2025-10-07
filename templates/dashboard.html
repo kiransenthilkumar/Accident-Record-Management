@@ -1,0 +1,75 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-3 mb-3">
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="card-subtitle text-muted">Police</h6>
+        <h3>{{ stats['police_count'] }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="card-subtitle text-muted">Citizens</h6>
+        <h3>{{ stats['citizen_count'] }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="card-subtitle text-muted">Cases</h6>
+        <h3>{{ stats['case_count'] }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="card-subtitle text-muted">Accidents</h6>
+        <h3>{{ stats['accident_count'] }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card shadow-sm p-3">
+      <h6>Accidents by Case</h6>
+      <canvas id="caseChart"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm p-3">
+      <h6>Latest Accidents</h6>
+      <table class="table table-sm table-striped" id="latestTable">
+        <thead><tr><th>Date</th><th>Person</th><th>Vehicle</th><th>Case</th></tr></thead>
+        <tbody>
+          {% for acc in latest_accidents %}
+          <tr>
+            <td>{{ acc.datee.strftime('%Y-%m-%d') }}</td>
+            <td>{{ acc.personname }}</td>
+            <td>{{ acc.vehicleno }}</td>
+            <td>{{ acc.case.casename }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4">No records.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+fetch('{{ url_for("accidents_by_case") }}').then(r=>r.json()).then(data=>{
+  const ctx = document.getElementById('caseChart').getContext('2d');
+  new Chart(ctx, { type:'pie', data: { labels: data.labels, datasets:[{ data: data.counts }] } });
+});
+$(document).ready(()=>$('#latestTable').DataTable({ "paging": false, "searching": false }));
+</script>
+{% endblock %}

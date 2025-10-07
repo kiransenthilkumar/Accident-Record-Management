@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5>Citizens</h5>
+    <table class="table table-sm" id="citizenTable">
+      <thead><tr><th>ID</th><th>Name</th><th>Mobile</th><th>Aadhar</th><th>Address</th></tr></thead>
+      <tbody>
+        {% for c in citizens %}
+        <tr>
+          <td>{{ c.id }}</td>
+          <td>{{ c.firstname }} {{ c.lastname }}</td>
+          <td>{{ c.mobile }}</td>
+          <td>{{ c.aadhar }}</td>
+          <td>{{ c.address or '-' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>$(document).ready(()=>$('#citizenTable').DataTable());</script>
+{% endblock %}
