@@ -11,7 +11,9 @@ This package contains a polished version of the Accident Record Management Syste
 - Demo seed data (police, citizens, cases, accidents)
 
 ## Run
-1. Create virtual env (recommended)
+1. Create virtual env (recommended)  
+    python -m venv .venv 
+    .venv\Scripts\activate 
 2. pip install -r requirements.txt
 3. python app.py
 4. open http://127.0.0.1:8080
